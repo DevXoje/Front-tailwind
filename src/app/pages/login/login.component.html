@@ -1,6 +1,4 @@
-<div
-  class="flex items-start justify-center min-h-screen px-4 py-12 sm:px-6 lg:px-8"
->
+<div class="flex items-start justify-center px-4 py-12 sm:px-6 lg:px-8">
   <div class="w-full max-w-md space-y-4">
     <div class="space-y-2">
       <h1 class="text-3xl font-bold">Logo</h1>
@@ -45,7 +43,7 @@
           </label>
         </div>
         <a class="text-sm font-medium underline" href="#">
-          Forgot your passwo</a
+          Forgot your password</a
         >
       </div>
       <button
@@ -55,7 +53,9 @@
       </button>
     </div>
     <div class="space-y-2">
-      <a class="w-full btn btn-outline" href="#"> Create an account </a>
+      <a class="w-full btn btn-outline" [routerLink]="['/register']">
+        Create an account
+      </a>
     </div>
     <div class="grid gap-2 py-2 border-t border-gray-200">
       <a class="text-sm font-medium" href="#"> Terms of Service </a
