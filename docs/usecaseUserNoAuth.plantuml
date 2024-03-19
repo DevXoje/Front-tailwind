@@ -1,0 +1,13 @@
+@startuml ecommerce_diagram
+
+left to right direction
+
+actor UserNoAuth as U
+rectangle "Ecommerce" {
+    U -- (Navegar por productos)
+    U -- (Buscar productos)
+    U -- (Administrar carrito)
+    U -- (Iniciar sesión)
+}
+
+@enduml

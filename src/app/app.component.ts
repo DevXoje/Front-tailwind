@@ -8,7 +8,7 @@ const components = [HeaderComponent, FooterComponent];
   standalone: true,
   imports: [RouterOutlet, ...components],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
 })
 export class AppComponent {
   title = 'Front-tailwind';

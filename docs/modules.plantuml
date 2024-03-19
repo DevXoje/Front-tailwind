@@ -1,0 +1,74 @@
+@startuml System
+title E-Commerce
+left to right direction
+actor WebCustomer
+actor RegistedCustomer
+actor NewCustomer 
+WebCustomer <-- RegistedCustomer
+WebCustomer <-- NewCustomer
+actor Admin
+actor Stripe
+' actor OAuth 
+
+rectangle System {
+
+  rectangle Auth{
+    usecase "Iniciar Sesión" as Login
+    usecase "Cerrar Sesión" as Logout
+  }
+  rectangle Product {
+    usecase "Crear Producto" as CreateProduct
+    usecase "Ver Producto" as ReadProduct
+    usecase "Actualizar Producto" as UpdateProduct
+    usecase "Eliminar Producto" as DeleteProduct
+  }
+  rectangle Cart {
+    usecase "Completar Compra" as CreateCart
+    usecase "Ver Carrito" as ReadCart
+    usecase "Eliminar Producto del Carrito" as RemoveFromCart
+    usecase "Agregar Producto al Carrito" as AddToCart
+  }
+  rectangle User {
+    usecase "Crear Usuario" as CreateUser
+    usecase "Ver Detalles de Usuario" as ReadUser
+    usecase "Update Usuario" as UpdateUser
+    usecase "Eliminar Usuario" as DeleteUser
+  }
+}
+RemoveFromCart <-[#black,dashed]- AddToCart
+' Customer 
+WebCustomer --> ReadProduct
+NewCustomer --> ReadCart
+WebCustomer --> AddToCart
+NewCustomer --> RemoveFromCart
+NewCustomer --> CreateUser
+RegistedCustomer --> RemoveFromCart
+RegistedCustomer --> ReadUser
+RegistedCustomer --> UpdateUser
+RegistedCustomer --> CreateCart
+
+RegistedCustomer --> Login
+RegistedCustomer --> Logout
+' Protected 
+ReadUser -[#black,dashed]-> Login: Extend
+UpdateUser -[#black,dashed]-> Login: Extend
+DeleteUser -[#black,dashed]-> Login: Extend
+Logout -[#black,dashed]-> Login: Extend
+CreateCart -[#black,dashed]-> Login: Extend
+ReadCart -[#black,dashed]-> Login: Extend
+ReadProduct -[#black,dashed]-> Login: Extend
+
+CreateProduct -[#black,dashed]-> Login: Extend
+ReadProduct -[#black,dashed]-> Login: Extend
+UpdateProduct -[#black,dashed]-> Login: Extend
+DeleteProduct -[#black,dashed]-> Login: Extend
+CreateCart <-[#black,dashed]- AddToCart: Extend
+' Admin 
+ReadProduct <-- Admin 
+ReadUser <-- Admin
+CreateUser <-- Admin
+' Stripe 
+CreateCart --> Stripe
+@enduml
+
+  

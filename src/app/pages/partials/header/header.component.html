@@ -2,7 +2,7 @@
   <div class="container px-4">
     <div class="flex items-center justify-between h-14">
       <div class="flex items-center gap-4">
-        <a class="flex items-center gap-2" href="#"
+        <a class="flex items-center gap-2" [routerLink]="['/']"
           ><svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -23,8 +23,13 @@
           ><span class="font-semibold text-base">Home</span></a
         >
         <nav class="flex items-center gap-4">
-          <a class="font-medium text-sm" href="#"> Shop </a
-          ><a class="font-medium text-sm" href="#"> About </a
+          <a
+            class="font-medium text-sm"
+            [routerLink]="['/shop']"
+            routerLinkActive="router-link-active"
+          >
+            Shop </a
+          ><a class="font-medium text-sm" [routerLink]="['/login']"> Login </a
           ><a class="font-medium text-sm" href="#"> Contact </a
           ><a class="font-medium text-sm" href="#"> Cart </a>
         </nav>

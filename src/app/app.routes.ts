@@ -6,25 +6,25 @@ import { SearcherComponent } from './pages/product/searcher/searcher.component';
 import { LoginComponent } from './pages/login/login.component';
 
 export const routes: Routes = [
-    { path: '', redirectTo: 'home', pathMatch: 'full' },
-    {
-        path: 'login',
-        component: LoginComponent
-    },
-    {
-        path: 'home',
-        component: HomeComponent
-    },
-    {
-        path: 'cart',
-        component: CartComponent
-    },
-    {
-        path: 'catalog',
-        component: SearcherComponent
-    },
-    {
-        path: '**', component: NotFoundComponent
-    },
-
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
+  {
+    path: 'home',
+    component: HomeComponent,
+  },
+  {
+    path: 'cart',
+    component: CartComponent,
+  },
+  {
+    path: 'catalog',
+    component: SearcherComponent,
+  },
+  {
+    path: '**',
+    component: NotFoundComponent,
+  },
 ];
