@@ -7,9 +7,14 @@ const components = [HeaderComponent, FooterComponent];
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, ...components],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
+  template: `
+    <div class="flex flex-col min-h-screen">
+      <app-header class=""></app-header>
+      <div class="flex-1">
+        <router-outlet></router-outlet>
+      </div>
+      <app-footer class=""></app-footer>
+    </div>
+  `
 })
-export class AppComponent {
-  title = 'Front-tailwind';
-}
+export class AppComponent {}
