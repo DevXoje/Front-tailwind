@@ -4,6 +4,8 @@
     <p class="text-sm text-muted-foreground">Manage your products</p>
     <div class="flex items-center gap-2">
       <button
+        (click)="handleInitiateAddProduct()"
+        [disabled]="isShowFormProduct()"
         class="inline-flex items-center justify-center px-3 text-sm font-medium transition-colors rounded-md whitespace-nowrap ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-9"
       >
         Add Product</button
@@ -27,10 +29,43 @@
             <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 w-[100px]">Actions</th>
           </tr>
         </thead>
-        <tbody class="[&amp;_tr:last-child]:border-0" #tableBody>
+
+        <tbody class="[&amp;_tr:last-child]:border-0">
+          @if (isShowFormProduct() && productForm) {
+            <tr [formGroup]="productForm">
+              <td>
+                @if (productForm.value.image) {
+                  <img [src]="productForm.value.image" width="64" height="64" class="object-cover rounded-md aspect-square" />
+                }
+                <input type="file" />
+              </td>
+              <td>
+                <input type="text" placeholder="Name" formControlName="name" minlength="3" maxlength="100" required />
+              </td>
+              <td>
+                <input type="number" placeholder="Price" min="0" max="1000000" formControlName="price" required />
+              </td>
+              <td>
+                <input type="number" placeholder="Stock" min="0" max="1000000" formControlName="stock" required />
+              </td>
+              <td>
+                <input type="text" placeholder="Description" formControlName="description" minlength="3" maxlength="100" required />
+              </td>
+              <td>
+                <button
+                  [disabled]="productForm.invalid"
+                  (click)="handleSaveProduct(productForm)"
+                  class="inline-flex items-center px-4 py-2 text-sm font-medium text-white rounded-md bg-primary hover:bg-primary/90"
+                >
+                  Save
+                </button>
+              </td>
+            </tr>
+          }
+
           @defer (on idle; prefetch on idle) {
             @for (product of products$; track product.id) {
-              <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
+              <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted" [ngClass]="{ 'bg-gray-100': product.id === productSelectedIndex() }">
                 <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
                   <img [src]="product.image" width="64" height="64" class="object-cover rounded-md aspect-square" />
                 </td>
@@ -39,14 +74,14 @@
                 <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">{{ product.stock }}</td>
                 <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">{{ product.description }}</td>
                 <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 flex gap-2 w-[100px]">
-                  <button class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-800 bg-gray-200 rounded-md hover:bg-gray-300">
+                  <button class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-800 bg-gray-200 rounded-md hover:bg-gray-300" (click)="handleInitiateEditProduct(product)">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
                     </svg>
 
                     Edit
                   </button>
-                  <button class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700">
+                  <button class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700" (click)="handleDeleteProduct(product.id)">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path
                         stroke-linecap="round"
