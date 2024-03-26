@@ -8,12 +8,20 @@
         [disabled]="isShowFormProduct()"
         class="inline-flex items-center justify-center px-3 text-sm font-medium transition-colors rounded-md whitespace-nowrap ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-9"
       >
-        Add Product</button
-      ><input
+        Add Product
+      </button>
+      <input
         class="flex border bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-[300px] h-8 border-gray-200 rounded-md dark:border-gray-800"
         placeholder="Search products..."
         type="search"
       />
+      <!--    <input type="range" name="" id="" max="100" min="0" #range>
+      {{ range.value }} -->
+      <div class="" [formGroup]="productFiltersForm">
+        <input type="number" min="0" [max]="max.value" step="1" #min class="" placeholder="min" formControlName="min" />
+        <input type="number" [min]="min.value" max="100" step="1" #max class="" placeholder="max" formControlName="max" />
+      </div>
+      <button (click)="handleApplySearch(productFiltersForm)">Search</button>
     </div>
   </div>
   <div class="p-0">
@@ -64,7 +72,7 @@
           }
 
           @defer (on idle; prefetch on idle) {
-            @for (product of products$; track product.id) {
+            @for (product of products(); track product.id) {
               <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted" [ngClass]="{ 'bg-gray-100': product.id === productSelectedIndex() }">
                 <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
                   <img [src]="product.image" width="64" height="64" class="object-cover rounded-md aspect-square" />

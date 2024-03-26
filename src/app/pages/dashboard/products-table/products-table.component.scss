@@ -1,3 +1,22 @@
 .selected {
   border: 10px solid red;
 }
+input[type='range']::-webkit-slider-thumb {
+  width: 24px;
+  height: 24px;
+  background-color: red;
+  border: 2px solid green;
+  border-radius: 50%;
+  cursor: pointer;
+}
+input[type='range']::-webkit-slider-runnable-track {
+  height: 2px;
+  background-color: goldenrod;
+}
+input[type='range']::-webkit-slider-thumb:first-child {
+  background-color: palevioletred;
+}
+
+input[type='range']::-webkit-slider-thumb:last-child {
+  background-color: darkorange;
+}

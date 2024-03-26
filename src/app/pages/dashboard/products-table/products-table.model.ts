@@ -2,7 +2,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ProductDTO } from '../../../models/products/ProductDTO';
 import { ProductNewDTO } from '../../../models/products/ProductNewDTO';
 
-export const initForm = (product?: ProductDTO) =>
+export const initProductForm = (product?: ProductDTO) =>
   new FormGroup({
     id: new FormControl(product?.id),
     name: new FormControl(product?.name ?? '', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
@@ -11,8 +11,14 @@ export const initForm = (product?: ProductDTO) =>
     price: new FormControl(product?.price ?? 0, [Validators.required, Validators.min(0), Validators.max(1000000)]),
     image: new FormControl(product?.image ?? '', [Validators.required])
   });
-
-export type ProductForm = ReturnType<typeof initForm>;
+export const initProductFiltersForm = ({ min, max, text }: { min?: number; max?: number; text?: string }) =>
+  new FormGroup({
+    min: new FormControl(min ?? 0, [Validators.min(0), Validators.max(1000000)]),
+    max: new FormControl(max ?? 1000000, [Validators.min(0), Validators.max(1000000)]),
+    text: new FormControl(text ?? '')
+  });
+export type ProductFiltersForm = ReturnType<typeof initProductFiltersForm>;
+export type ProductForm = ReturnType<typeof initProductForm>;
 export const mapFormToProductNewDTO = (form: ProductForm): ProductNewDTO => {
   if (!form.valid) {
     throw new Error('Invalid form');

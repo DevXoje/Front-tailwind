@@ -1,8 +1,8 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ProductsService } from '../../../services/products/products.service';
 import { Product } from '../../../models/products/Product';
 import { ProductDTO } from '../../../models/products/ProductDTO';
-import { ProductForm, initForm, mapFormToProductNewDTO } from './products-table.model';
+import { ProductFiltersForm, ProductForm, initProductFiltersForm, initProductForm, mapFormToProductNewDTO } from './products-table.model';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProductNewDTO } from '../../../models/products/ProductNewDTO';
 import { CommonModule } from '@angular/common';
@@ -16,24 +16,25 @@ import { CommonModule } from '@angular/common';
 })
 export class ProductsTableComponent implements OnInit {
   private productService = inject(ProductsService);
-  public products$: Product[] = [];
+  public products = signal<Product[]>([]);
   public isShowFormProduct = signal(false);
   public isEditProduct = signal(false);
   public productSelectedIndex = signal<number | null>(null);
   public productForm?: ProductForm;
+  public productFiltersForm: ProductFiltersForm = initProductFiltersForm({});
   ngOnInit(): void {
     this.init();
   }
   private async init(): Promise<void> {
-    this.products$ = await this.productService.getAllProducts();
+    this.products.set(await this.productService.getAllProducts());
   }
   public handleInitiateAddProduct(): void {
-    this.productForm = initForm();
+    this.productForm = initProductForm();
     this.isShowFormProduct.set(true);
   }
   public handleInitiateEditProduct(product: Product): void {
     this.productSelectedIndex.set(product.id);
-    this.productForm = initForm(product);
+    this.productForm = initProductForm(product);
     this.isShowFormProduct.set(true);
   }
   public handleSaveProduct(productForm: ProductForm): void {
@@ -57,5 +58,9 @@ export class ProductsTableComponent implements OnInit {
   public handleUpdateProduct(id: number, product: ProductNewDTO): void {
     this.productService.updateProduct(id, product);
     this.init();
+  }
+
+  public async handleApplySearch(productFiltersForm: ProductFiltersForm): Promise<void> {
+    this.products.set(await this.productService.searchProducts(productFiltersForm.value));
   }
 }
