@@ -1,27 +1,24 @@
-<div class="border rounded-lg shadow-sm bg-card text-card-foreground" data-v0-t="card">
+<div class="border rounded-lg shadow-sm bg-card text-card-foreground">
   <div class="flex flex-col space-y-1.5 p-6">
     <h3 class="text-2xl font-semibold leading-none tracking-tight whitespace-nowrap">Products</h3>
     <p class="text-sm text-muted-foreground">Manage your products</p>
     <div class="flex items-center gap-2">
-      <button
-        (click)="handleInitiateAddProduct()"
-        [disabled]="isShowFormProduct()"
-        class="inline-flex items-center justify-center px-3 text-sm font-medium transition-colors rounded-md whitespace-nowrap ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-9"
-      >
+      <button (click)="handleInitiateAddProduct()" [disabled]="isShowFormProduct()" class="px-4 py-2 text-white bg-black rounded-md hover:bg-gray-900 disabled:opacity-50 disabled:hover:bg-black">
         Add Product
       </button>
-      <input
-        class="flex border bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-[300px] h-8 border-gray-200 rounded-md dark:border-gray-800"
-        placeholder="Search products..."
-        type="search"
-      />
-      <!--    <input type="range" name="" id="" max="100" min="0" #range>
-      {{ range.value }} -->
-      <div class="" [formGroup]="productFiltersForm">
-        <input type="number" min="0" [max]="max.value" step="1" #min class="" placeholder="min" formControlName="min" />
-        <input type="number" [min]="min.value" max="100" step="1" #max class="" placeholder="max" formControlName="max" />
-      </div>
-      <button (click)="handleApplySearch(productFiltersForm)">Search</button>
+
+      <form class="" [formGroup]="productFiltersForm" class="flex gap-12 ml-auto">
+        <input placeholder="Search products..." type="search" formControlName="searchTerm" name="search" />
+        <input type="number" min="0" [max]="productFiltersForm.value.max ?? 100" step="1" #min placeholder="min" formControlName="min" title="min" />
+        <input type="number" [min]="productFiltersForm.value.min ?? 0" [max]="100" step="1" class="" placeholder="max" formControlName="max" title="max" />
+        <button
+          (click)="handleApplySearch(productFiltersForm)"
+          [disabled]="!hasFilters() || isShowFormProduct() || productFiltersForm.invalid"
+          class="px-4 py-2 text-white bg-black rounded-md disabled:opacity-50 disabled:hover:bg-black"
+        >
+          Search
+        </button>
+      </form>
     </div>
   </div>
   <div class="p-0">
@@ -45,7 +42,7 @@
                 @if (productForm.value.image) {
                   <img [src]="productForm.value.image" width="64" height="64" class="object-cover rounded-md aspect-square" />
                 }
-                <input type="file" />
+                <input type="file" (change)="handleUploadImage($event)" accept="image/*" />
               </td>
               <td>
                 <input type="text" placeholder="Name" formControlName="name" minlength="3" maxlength="100" required />
@@ -59,11 +56,32 @@
               <td>
                 <input type="text" placeholder="Description" formControlName="description" minlength="3" maxlength="100" required />
               </td>
+              {{
+                productForm.value.id
+              }}
+              {{
+                productForm.value.image
+              }}
+              {{
+                productForm.value.name
+              }}
+              {{
+                productForm.value.price
+              }}
+              {{
+                productForm.value.stock
+              }}
+              {{
+                productForm.value.description
+              }}
+              {{
+                productForm.invalid
+              }}
               <td>
                 <button
                   [disabled]="productForm.invalid"
                   (click)="handleSaveProduct(productForm)"
-                  class="inline-flex items-center px-4 py-2 text-sm font-medium text-white rounded-md bg-primary hover:bg-primary/90"
+                  class="px-4 py-2 text-white bg-black rounded-md hover:bg-gray-900 disabled:opacity-50 disabled:hover:bg-black"
                 >
                   Save
                 </button>

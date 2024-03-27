@@ -11,11 +11,11 @@ export const initProductForm = (product?: ProductDTO) =>
     price: new FormControl(product?.price ?? 0, [Validators.required, Validators.min(0), Validators.max(1000000)]),
     image: new FormControl(product?.image ?? '', [Validators.required])
   });
-export const initProductFiltersForm = ({ min, max, text }: { min?: number; max?: number; text?: string }) =>
+export const initProductFiltersForm = ({ min, max, searchTerm }: { min?: number; max?: number; searchTerm?: string }) =>
   new FormGroup({
     min: new FormControl(min ?? 0, [Validators.min(0), Validators.max(1000000)]),
-    max: new FormControl(max ?? 1000000, [Validators.min(0), Validators.max(1000000)]),
-    text: new FormControl(text ?? '')
+    max: new FormControl(max, [Validators.min(0), Validators.max(1000000)]),
+    searchTerm: new FormControl(searchTerm, [Validators.minLength(3), Validators.maxLength(100)])
   });
 export type ProductFiltersForm = ReturnType<typeof initProductFiltersForm>;
 export type ProductForm = ReturnType<typeof initProductForm>;

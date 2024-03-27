@@ -22,14 +22,23 @@ export class ProductsTableComponent implements OnInit {
   public productSelectedIndex = signal<number | null>(null);
   public productForm?: ProductForm;
   public productFiltersForm: ProductFiltersForm = initProductFiltersForm({});
+  public hasFilters = signal(false);
   ngOnInit(): void {
     this.init();
+    this.productFiltersForm.valueChanges.subscribe(() => {
+      const { min, max, searchTerm } = this.productFiltersForm.value;
+      this.hasFilters.set(!!min || !!max || !!searchTerm);
+    });
   }
   private async init(): Promise<void> {
     this.products.set(await this.productService.getAllProducts());
   }
   public handleInitiateAddProduct(): void {
     this.productForm = initProductForm();
+    this.productForm.valueChanges.subscribe((values) => {
+      console.log(values);
+      console.log(this.productForm);
+    });
     this.isShowFormProduct.set(true);
   }
   public handleInitiateEditProduct(product: Product): void {
@@ -62,5 +71,22 @@ export class ProductsTableComponent implements OnInit {
 
   public async handleApplySearch(productFiltersForm: ProductFiltersForm): Promise<void> {
     this.products.set(await this.productService.searchProducts(productFiltersForm.value));
+  }
+
+  public handleUploadImage(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    const file = target.files?.[0];
+    if (!file) {
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const result = event.target?.result;
+      if (typeof result !== 'string') {
+        return;
+      }
+      this.productForm?.controls.image.setValue(result);
+    };
+    reader.readAsDataURL(file);
   }
 }
