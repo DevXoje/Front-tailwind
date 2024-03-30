@@ -8,12 +8,12 @@ const components = [HeaderComponent, FooterComponent];
   standalone: true,
   imports: [RouterOutlet, ...components],
   template: `
-    <div class="flex flex-col min-h-screen">
-      <app-header class=""></app-header>
+    <div class="flex flex-col h-screen">
+      <app-header class=""> </app-header>
       <div class="flex-1">
         <router-outlet></router-outlet>
       </div>
-      <app-footer class=""></app-footer>
+      <!--       <app-footer class=""></app-footer> -->
     </div>
   `
 })

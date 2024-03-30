@@ -1,0 +1,103 @@
+<details>
+  <summary class="flex flex-col space-y-1.5 p-6">
+    <h3 class="text-2xl font-semibold leading-none tracking-tight whitespace-nowrap">Orders</h3>
+    <p class="text-sm text-muted-foreground">Manage your orders</p>
+    <div class="flex items-center gap-2">
+      <button (click)="handleInitiateAddOrder()" [disabled]="isShowFormOrder()" class="px-4 py-2 text-white bg-black rounded-md hover:bg-gray-900 disabled:opacity-50 disabled:hover:bg-black">
+        Add Order
+      </button>
+
+      <!--  <form class="" [formGroup]="orderFiltersForm" class="flex gap-12 ml-auto">
+                <input placeholder="Search orders..." type="search" formControlName="searchTerm" name="search" />
+                <input type="number" min="0" [max]="orderFiltersForm.value.max ?? 100" step="1" #min placeholder="min"
+                    formControlName="min" title="min" />
+                <input type="number" [min]="orderFiltersForm.value.min ?? 0" [max]="100" step="1" class=""
+                    placeholder="max" formControlName="max" title="max" />
+                <button (click)="handleApplySearch(orderFiltersForm)"
+                    [disabled]="!hasFilters() || isShowFormOrder() || orderFiltersForm.invalid"
+                    class="px-4 py-2 text-white bg-black rounded-md disabled:opacity-50 disabled:hover:bg-black">
+                    Search
+                </button>
+            </form> -->
+    </div>
+  </summary>
+  <div class="p-0">
+    <div class="relative w-full overflow-auto">
+      <table class="w-full text-sm caption-bottom">
+        <thead class="[&amp;_tr]:border-b">
+          <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
+            <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0">Client</th>
+            <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0">Items</th>
+            <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 w-[100px]">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody class="[&amp;_tr:last-child]:border-0">
+          <!--  @if (isShowFormOrder() && orderForm) {
+                    <tr [formGroup]="orderForm">
+                        <td>
+                            <input type="text" placeholder="Name" formControlName="name" minlength="3" maxlength="100"
+                                required />
+                        </td>
+                        <td>
+                            <input type="number" placeholder="Price" min="0" max="1000000" formControlName="price"
+                                required />
+                        </td>
+                        <td>
+                            <input type="number" placeholder="Stock" min="0" max="1000000" formControlName="stock"
+                                required />
+                        </td>
+                        <td>
+                            <input type="text" placeholder="Description" formControlName="description" minlength="3"
+                                maxlength="100" required />
+                        </td>
+
+                        <td>
+                            <!--   <button [disabled]="orderForm.invalid" (click)="handleSaveOrder(orderForm)"
+                    class="px-4 py-2 text-white bg-black rounded-md hover:bg-gray-900 disabled:opacity-50 disabled:hover:bg-black"> --
+                            <button (click)="handleSaveOrder(orderForm)"
+                                class="px-4 py-2 text-white bg-black rounded-md hover:bg-gray-900 disabled:opacity-50 disabled:hover:bg-black">Save</button>
+                        </td>
+                    </tr>
+                    } -->
+
+          @defer (on idle; prefetch on idle) {
+            @for (order of orders(); track order.id) {
+              <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted" [ngClass]="{ 'bg-gray-100': order.id === orderSelectedId() }">
+                <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 font-semibold capitalize">{{ order.user.username }}</td>
+                <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">{{ order.items }}</td>
+                <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 flex gap-2 w-[100px]">
+                  <button class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-800 bg-gray-200 rounded-md hover:bg-gray-300" (click)="handleInitiateEditOrder(order)">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+                    </svg>
+
+                    Edit
+                  </button>
+                  <button class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700" (click)="handleDeleteOrder(order.id)">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                      />
+                    </svg>
+
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            }
+          } @placeholder (minimum 300ms) {
+            <h1>Please wait...</h1>
+          } @loading {
+            <h1>Loading...</h1>
+          } @error {
+            <p>Something went wrong, please try again...</p>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</details>

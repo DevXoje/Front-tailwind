@@ -21,7 +21,7 @@ export class ProductsTableComponent implements OnInit {
   public isEditProduct = signal(false);
   public productSelectedId = signal<number | null>(null);
   public productForm?: ProductForm;
-  public productFiltersForm: ProductFiltersForm = initProductFiltersForm({});
+  public productFiltersForm = initProductFiltersForm({});
   public hasFilters = signal(false);
   ngOnInit(): void {
     this.init();
@@ -74,6 +74,8 @@ export class ProductsTableComponent implements OnInit {
       alert('Error creating product');
     }
     this.init();
+    this.isShowFormProduct.set(false);
+    this.productForm?.reset();
   }
   public async handleUpdateProduct(id: number, product: ProductNewDTO): Promise<void> {
     try {
