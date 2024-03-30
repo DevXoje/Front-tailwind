@@ -4,7 +4,7 @@ import { ProductNewDTO } from '../../../models/products/ProductNewDTO';
 
 export const initProductForm = (product?: ProductDTO) =>
   new FormGroup({
-    id: new FormControl(product?.id),
+    //id: new FormControl(product?.id),
     name: new FormControl(product?.name ?? '', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
     description: new FormControl(product?.description ?? '', [Validators.required, Validators.minLength(10), Validators.maxLength(1000)]),
     stock: new FormControl(product?.stock ?? 0, [Validators.required, Validators.min(0), Validators.max(1000)]),
@@ -20,9 +20,9 @@ export const initProductFiltersForm = ({ min, max, searchTerm }: { min?: number;
 export type ProductFiltersForm = ReturnType<typeof initProductFiltersForm>;
 export type ProductForm = ReturnType<typeof initProductForm>;
 export const mapFormToProductNewDTO = (form: ProductForm): ProductNewDTO => {
-  if (!form.valid) {
-    throw new Error('Invalid form');
-  }
+  /*  if (!form.valid) {
+     throw new Error('Invalid form');
+   } */
   const { description, image, name, price, stock } = form.value;
   if (!description || !image || !name || !price || !stock) {
     throw new Error('Invalid form');

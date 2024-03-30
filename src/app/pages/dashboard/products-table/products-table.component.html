@@ -56,42 +56,18 @@
               <td>
                 <input type="text" placeholder="Description" formControlName="description" minlength="3" maxlength="100" required />
               </td>
-              {{
-                productForm.value.id
-              }}
-              {{
-                productForm.value.image
-              }}
-              {{
-                productForm.value.name
-              }}
-              {{
-                productForm.value.price
-              }}
-              {{
-                productForm.value.stock
-              }}
-              {{
-                productForm.value.description
-              }}
-              {{
-                productForm.invalid
-              }}
+
               <td>
-                <button
-                  [disabled]="productForm.invalid"
-                  (click)="handleSaveProduct(productForm)"
-                  class="px-4 py-2 text-white bg-black rounded-md hover:bg-gray-900 disabled:opacity-50 disabled:hover:bg-black"
-                >
-                  Save
-                </button>
+                <!--   <button [disabled]="productForm.invalid" (click)="handleSaveProduct(productForm)"
+                class="px-4 py-2 text-white bg-black rounded-md hover:bg-gray-900 disabled:opacity-50 disabled:hover:bg-black"> -->
+                <button (click)="handleSaveProduct(productForm)" class="px-4 py-2 text-white bg-black rounded-md hover:bg-gray-900 disabled:opacity-50 disabled:hover:bg-black">Save</button>
               </td>
             </tr>
           }
 
           @defer (on idle; prefetch on idle) {
             @for (product of products(); track product.id) {
-              <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted" [ngClass]="{ 'bg-gray-100': product.id === productSelectedIndex() }">
+              <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted" [ngClass]="{ 'bg-gray-100': product.id === productSelectedId() }">
                 <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
                   <img [src]="product.image" width="64" height="64" class="object-cover rounded-md aspect-square" />
                 </td>

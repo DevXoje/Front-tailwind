@@ -19,7 +19,7 @@ export class ProductsTableComponent implements OnInit {
   public products = signal<Product[]>([]);
   public isShowFormProduct = signal(false);
   public isEditProduct = signal(false);
-  public productSelectedIndex = signal<number | null>(null);
+  public productSelectedId = signal<number | null>(null);
   public productForm?: ProductForm;
   public productFiltersForm: ProductFiltersForm = initProductFiltersForm({});
   public hasFilters = signal(false);
@@ -31,7 +31,11 @@ export class ProductsTableComponent implements OnInit {
     });
   }
   private async init(): Promise<void> {
-    this.products.set(await this.productService.getAllProducts());
+    try {
+      this.products.set(await this.productService.getAllProducts());
+    } catch (error) {
+      alert('Error loading products');
+    }
   }
   public handleInitiateAddProduct(): void {
     this.productForm = initProductForm();
@@ -42,21 +46,20 @@ export class ProductsTableComponent implements OnInit {
     this.isShowFormProduct.set(true);
   }
   public handleInitiateEditProduct(product: Product): void {
-    this.productSelectedIndex.set(product.id);
+    this.productSelectedId.set(product.id);
     this.productForm = initProductForm(product);
     this.isShowFormProduct.set(true);
   }
   public handleSaveProduct(productForm: ProductForm): void {
     const product = mapFormToProductNewDTO(productForm);
     if (this.isEditProduct()) {
-      const id = productForm.value.id;
+      const id = this.productSelectedId();
       if (!id) {
         throw new Error('Invalid product id');
       }
-
       this.handleUpdateProduct(id, product);
     } else {
-      this.productService.createProduct(product);
+      this.handleCreateProduct(product);
     }
     this.init();
   }
@@ -64,13 +67,30 @@ export class ProductsTableComponent implements OnInit {
     this.productService.deleteProduct(id);
     this.init();
   }
-  public handleUpdateProduct(id: number, product: ProductNewDTO): void {
-    this.productService.updateProduct(id, product);
+  public async handleCreateProduct(product: ProductNewDTO): Promise<void> {
+    try {
+      await this.productService.createProduct(product);
+    } catch (error) {
+      alert('Error creating product');
+    }
+    this.init();
+  }
+  public async handleUpdateProduct(id: number, product: ProductNewDTO): Promise<void> {
+    try {
+      await this.productService.updateProduct(id, product);
+    } catch (error) {
+      alert('Error updating product');
+    }
     this.init();
   }
 
   public async handleApplySearch(productFiltersForm: ProductFiltersForm): Promise<void> {
-    this.products.set(await this.productService.searchProducts(productFiltersForm.value));
+    const { min, max, searchTerm } = productFiltersForm.value;
+    try {
+      this.products.set(await this.productService.searchProducts({ min, max }));
+    } catch (error) {
+      alert('Error searching products');
+    }
   }
 
   public handleUploadImage(event: Event): void {

@@ -33,13 +33,17 @@ export class ProductsService {
     return new Promise((resolve, reject) => {
       this.http.post<ProductDTO>(this.URL_PRODUCTS, product).subscribe({
         next: (product) => resolve(new Product(product)),
-        error: (error) => reject(error)
+        error: (error) => {
+          console.log(error, 'error');
+          reject(error);
+        }
       });
     });
   }
   public updateProduct(id: number, product: ProductNewDTO): Promise<void> {
     return new Promise((resolve, reject) => {
-      this.http.put(this.URL_PRODUCT_BY.replace('@id', id.toString()), product).subscribe({
+      const url = this.URL_PRODUCT_BY.replace('@id', id.toString());
+      this.http.put(url, product).subscribe({
         next: () => resolve(),
         error: (error) => reject(error)
       });
@@ -47,7 +51,8 @@ export class ProductsService {
   }
   public deleteProduct(id: number): Promise<void> {
     return new Promise((resolve, reject) => {
-      this.http.delete<void>(this.URL_PRODUCT_BY.replace('@id', id.toString())).subscribe({
+      const url = this.URL_PRODUCT_BY.replace('@id', id.toString());
+      this.http.delete(url).subscribe({
         next: () => resolve(),
         error: (error) => reject(error)
       });
