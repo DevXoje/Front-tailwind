@@ -6,6 +6,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { CatalogComponent } from './pages/catalog/catalog.component';
+import { ProductItemComponent } from './pages/product/item/product-item.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -32,6 +33,15 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent
+  },
+  {
+    path: 'product',
+    children: [
+      {
+        path: ':id',
+        component: ProductItemComponent
+      }
+    ]
   },
   {
     path: '**',

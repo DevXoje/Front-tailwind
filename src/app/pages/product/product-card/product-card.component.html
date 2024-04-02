@@ -1,7 +1,7 @@
-<p>{{ product.description }}</p>
+<!-- <p>{{ product.description }}</p> -->
 <!-- <button (click)="handleAddToCart(product)">Add to cart</button> -->
-<div class="flex flex-col w-full max-w-xs my-10 overflow-hidden bg-white group">
-  <a class="relative flex overflow-hidden h-80 w-72" href="#">
+<div class="flex flex-col w-full max-w-xs overflow-hidden bg-white group">
+  <a class="relative flex overflow-hidden h-80 w-72" [routerLink]="['/product', product.id]">
     <img class="absolute top-0 right-0 object-cover w-full h-full" [src]="product.image" [alt]="product.name" alt="product image" />
 
     <div class="absolute bottom-0 mb-4 mr-2 space-y-2 transition-all duration-300 -right-16 group-hover:right-0">
