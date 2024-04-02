@@ -1,0 +1,20 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+describe('SearcherComponent', () => {
+  let component: ProductSearcherComponent;
+  let fixture: ComponentFixture<SearcherComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [SearcherComponent]
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(SearcherComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

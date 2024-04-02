@@ -1,4 +1,4 @@
-<details class="border rounded-lg shadow-sm bg-card text-card-foreground" open>
+<details class="border rounded-lg shadow-sm bg-card text-card-foreground" name="dashboard-section">
   <summary class="flex flex-col space-y-1.5 p-6">
     <h3 class="text-2xl font-semibold leading-none tracking-tight whitespace-nowrap">Clients</h3>
     <p class="text-sm text-muted-foreground">Manage your clients</p>
@@ -8,7 +8,7 @@
       >
         Add Client
       </button>
-      <button (click)="handleInitiateAddUser()" [disabled]="isShowFormUser()" class="px-4 py-2 text-white bg-black rounded-md hover:bg-gray-900 disabled:opacity-50 disabled:hover:bg-black">
+      <button class="px-4 py-2 text-white bg-black rounded-md hover:bg-gray-900 disabled:opacity-50 disabled:hover:bg-black" [disabled]="isShowFormUser()" (click)="handleInitiateAddUser()">
         Add user
       </button>
       <input
@@ -33,12 +33,12 @@
           @if (isShowFormUser() && userForm) {
             <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
               <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 font-semibold"><input type="text" /></td>
-              <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0"><input type="email" name="" id="" /></td>
+              <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0"><input id="" type="email" name="" /></td>
               <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">23</td>
               <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 flex gap-2 w-[100px]">
                 <!--   <button [disabled]="productForm.invalid" (click)="handleSaveProduct(productForm)"-->
 
-                <button (click)="handleSaveUser(userForm)" class="px-4 py-2 text-white bg-black rounded-md hover:bg-gray-900 disabled:opacity-50 disabled:hover:bg-black">Save</button>
+                <button class="px-4 py-2 text-white bg-black rounded-md hover:bg-gray-900 disabled:opacity-50 disabled:hover:bg-black" (click)="handleSaveUser(userForm)">Save</button>
               </td>
             </tr>
           }
@@ -50,14 +50,14 @@
 
                 <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 flex gap-2 w-[100px]">
                   <button class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-800 bg-gray-200 rounded-md hover:bg-gray-300" (click)="handleInitiateEditUser(user)">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
                     </svg>
 
                     Edit
                   </button>
                   <button class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700" (click)="handleDeleteUser(user.id)">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path
                         stroke-linecap="round"
                         stroke-linejoin="round"

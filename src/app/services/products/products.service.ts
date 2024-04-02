@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Product } from '../../models/products/Product';
 import { ProductDTO } from '../../models/products/ProductDTO';
 import { ProductNewDTO } from '../../models/products/ProductNewDTO';
+import { ProductFilters } from '../../pages/dashboard/products-table/products-table.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ import { ProductNewDTO } from '../../models/products/ProductNewDTO';
 export class ProductsService {
   private http = inject(HttpClient);
   public URL_PRODUCTS = `${environment.apiBaseUrl}/products/`;
-  public URL_PRODUCT_BY = `${this.URL_PRODUCTS}@id`;
+  public URL_PRODUCT_BY_ID = `${this.URL_PRODUCTS}@id`;
   public URL_SEARCH_PRODUCTS = `${this.URL_PRODUCTS}search`;
   public getAllProducts(): Promise<Product[]> {
     return new Promise((resolve, reject) => {
@@ -23,7 +24,7 @@ export class ProductsService {
   }
   public getProductById(id: string): Promise<Product> {
     return new Promise((resolve, reject) => {
-      this.http.get<ProductDTO>(this.URL_PRODUCT_BY.replace('@id', id)).subscribe({
+      this.http.get<ProductDTO>(this.URL_PRODUCT_BY_ID.replace('@id', id)).subscribe({
         next: (product) => resolve(Product.fromDTO(product)),
         error: (error) => reject(error)
       });
@@ -39,7 +40,7 @@ export class ProductsService {
   }
   public updateProduct(id: number, product: ProductNewDTO): Promise<void> {
     return new Promise((resolve, reject) => {
-      const url = this.URL_PRODUCT_BY.replace('@id', id.toString());
+      const url = this.URL_PRODUCT_BY_ID.replace('@id', id.toString());
       this.http.put(url, product).subscribe({
         next: () => resolve(),
         error: (error) => reject(error)
@@ -48,14 +49,14 @@ export class ProductsService {
   }
   public deleteProduct(id: number): Promise<void> {
     return new Promise((resolve, reject) => {
-      const url = this.URL_PRODUCT_BY.replace('@id', id.toString());
+      const url = this.URL_PRODUCT_BY_ID.replace('@id', id.toString());
       this.http.delete(url).subscribe({
         next: () => resolve(),
         error: (error) => reject(error)
       });
     });
   }
-  public searchProducts({ min, max }: { min?: number | null; max?: number | null } /* , text?: string */): Promise<Product[]> {
+  public searchProducts({ min, max }: ProductFilters): Promise<Product[]> {
     return new Promise((resolve, reject) => {
       const url = new URL(this.URL_SEARCH_PRODUCTS);
       if (min) {

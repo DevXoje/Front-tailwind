@@ -1,10 +1,9 @@
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Order } from '../../../models/orders/Order';
 
-export const initOrderForm = (order?: Order) =>
+export const initOrderFormEdit = (order: Order) =>
   new FormGroup({
-    //id: new FormControl(product?.id),
-    user: new FormControl(order?.user ?? '', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
+    user: new FormControl({ value: order.user.username, disabled: true }, [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
     items: new FormArray(
       order?.items.map(
         (item) =>
@@ -22,7 +21,7 @@ export const initOrderForm = (order?: Order) =>
     searchTerm: new FormControl(searchTerm, [Validators.minLength(3), Validators.maxLength(100)])
   }); 
 export type ProductFiltersForm = ReturnType<typeof initProductFiltersForm>;*/
-export type OrderForm = ReturnType<typeof initOrderForm>;
+export type OrderForm = ReturnType<typeof initOrderFormEdit>;
 /* export const mapFormToProductNewDTO = (form: ProductForm): ProductNewDTO => {
   //  if (!form.valid) {
   //    throw new Error('Invalid form');

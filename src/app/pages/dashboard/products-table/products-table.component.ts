@@ -2,15 +2,16 @@ import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ProductsService } from '../../../services/products/products.service';
 import { Product } from '../../../models/products/Product';
 import { ProductDTO } from '../../../models/products/ProductDTO';
-import { ProductFiltersForm, ProductForm, initProductFiltersForm, initProductForm, mapFormToProductNewDTO } from './products-table.model';
+import { ProductFilters, ProductFiltersForm, ProductForm, initProductFiltersForm, initProductForm, mapFormToProductNewDTO } from './products-table.model';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProductNewDTO } from '../../../models/products/ProductNewDTO';
 import { CommonModule } from '@angular/common';
+import { ProductSearcherComponent } from '../../product/searcher/product-searcher.component';
 
 @Component({
   selector: 'app-products-table',
   standalone: true,
-  imports: [ReactiveFormsModule, FormsModule, CommonModule],
+  imports: [ReactiveFormsModule, FormsModule, CommonModule, ProductSearcherComponent],
   templateUrl: './products-table.component.html',
   styleUrl: './products-table.component.scss'
 })
@@ -86,10 +87,9 @@ export class ProductsTableComponent implements OnInit {
     this.init();
   }
 
-  public async handleApplySearch(productFiltersForm: ProductFiltersForm): Promise<void> {
-    const { min, max, searchTerm } = productFiltersForm.value;
+  public async handleApplySearch(productFiltersForm: ProductFilters): Promise<void> {
     try {
-      this.products.set(await this.productService.searchProducts({ min, max }));
+      this.products.set(await this.productService.searchProducts(productFiltersForm));
     } catch (error) {
       alert('Error searching products');
     }

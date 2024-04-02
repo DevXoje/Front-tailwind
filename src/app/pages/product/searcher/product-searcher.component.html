@@ -1,0 +1,8 @@
+<form class="" class="flex gap-12 ml-auto" [formGroup]="productFiltersForm" (ngSubmit)="handleApplySearch(productFiltersForm)">
+  <input placeholder="Search products..." type="search" formControlName="searchTerm" name="search" />
+  <input [max]="productFiltersForm.value.max ?? 100" type="number" min="0.01" step="1" placeholder="min" formControlName="min" title="min" />
+  <input class="" [min]="productFiltersForm.value.min ?? 0.01" [max]="100" type="number" step="1" placeholder="max" formControlName="max" title="max" />
+  <button class="px-4 py-2 text-white bg-black rounded-md disabled:opacity-50 disabled:hover:bg-black" [disabled]="productFiltersForm.invalid || productFiltersForm.pristine" type="submit">
+    Search
+  </button>
+</form>

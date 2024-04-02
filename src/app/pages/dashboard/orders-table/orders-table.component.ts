@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { OrdersService } from '../../../services/orders/orders.service';
 import { Order } from '../../../models/orders/Order';
-import { OrderForm, initOrderForm } from './orders-table.model';
+import { OrderForm, initOrderFormEdit } from './orders-table.model';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -35,17 +35,21 @@ export class OrdersTableComponent {
       alert('Error loading orders');
     }
   }
-  public handleInitiateAddOrder(): void {
-    this.orderForm = initOrderForm();
+  /*  public handleInitiateAddOrder(): void {
+     this.orderForm = initOrderFormEdit();
+     this.orderForm.valueChanges.subscribe((values) => {
+       console.log(values);
+       console.log(this.orderForm);
+     });
+     this.isShowFormOrder.set(true);
+   } */
+  public handleInitiateEditOrder(order: Order): void {
+    this.orderSelectedId.set(order.id);
+    this.orderForm = initOrderFormEdit(order);
     this.orderForm.valueChanges.subscribe((values) => {
       console.log(values);
       console.log(this.orderForm);
     });
-    this.isShowFormOrder.set(true);
-  }
-  public handleInitiateEditOrder(order: Order): void {
-    this.orderSelectedId.set(order.id);
-    this.orderForm = initOrderForm(order);
     this.isShowFormOrder.set(true);
   }
   public handleSaveOrder(orderForm: OrderForm): void {
